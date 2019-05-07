@@ -13,14 +13,15 @@
 	<deque>
 	<iostream>
 
-1556470802 source:c:\users\viniciusakiraimaizum\desktop\map3121\ep1_numerico\src\matriz.cpp
+1557261788 source:c:\users\viniciusakiraimaizum\desktop\map3121\ep1_numerico\src\matriz.cpp
 	"Matriz.h"
+	<iomanip>
 
-1556470552 c:\users\viniciusakiraimaizum\desktop\map3121\ep1_numerico\include\matriz.h
+1557260684 c:\users\viniciusakiraimaizum\desktop\map3121\ep1_numerico\include\matriz.h
 	<deque>
 	<iostream>
 
-1556682035 source:c:\users\viniciusakiraimaizum\desktop\map3121\ep1_numerico\main.cpp
+1557262576 source:c:\users\viniciusakiraimaizum\desktop\map3121\ep1_numerico\main.cpp
 	<stdio.h>
 	<time.h>
 	<stdlib.h>
@@ -28,4 +29,39 @@
 	<deque>
 	<math.h>
 	<Matriz.h>
+	<vector>
+
+1557099948 source:c:\users\roberto\documents\numerico\ep1_numerico_123\ep1_numerico\main.cpp
+	<stdio.h>
+	<time.h>
+	<stdlib.h>
+	<iostream>
+	<deque>
+	<math.h>
+	<Matriz.h>
+
+1557101625 c:\users\roberto\documents\numerico\ep1_numerico_123\ep1_numerico\include\matriz.h
+	<deque>
+	<iostream>
+
+1557101625 source:c:\users\roberto\documents\numerico\ep1_numerico_123\ep1_numerico\src\matriz.cpp
+	"Matriz.h"
+
+1557155500 source:c:\users\daquisu\downloads\ep1_numerico\src\matriz.cpp
+	"Matriz.h"
+	<iomanip>
+
+1557101626 c:\users\daquisu\downloads\ep1_numerico\include\matriz.h
+	<deque>
+	<iostream>
+
+1557155558 source:c:\users\daquisu\downloads\ep1_numerico\main.cpp
+	<stdio.h>
+	<time.h>
+	<stdlib.h>
+	<iostream>
+	<deque>
+	<math.h>
+	<Matriz.h>
+	<vector>
 

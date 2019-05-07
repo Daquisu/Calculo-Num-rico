@@ -1,4 +1,5 @@
 #include "Matriz.h"
+#include <iomanip>      // std::setw
 
 Matriz::Matriz() { // declara
 
@@ -43,12 +44,23 @@ double Matriz::get_elemento(int i, int j) {
 }
 
 
-void Matriz::show() { // printa a matriz, pode ser melhorado pra ficar mais bonito mas não é prioridade
+void Matriz::show(int digitos_total, int digitos_depois_virgula) { // os dois parametros sao para a formatacao do printf. as matrizes ficam alinhadas
     for (int i = 0; i < n_linhas; i++) {
         for (int j = 0; j < n_colunas; j++) {
-            cout << a.at(i).at(j) << "     ";
+            // cout << a.at(i).at(j) << "     ";
+            printf ("%*.*f ", digitos_total, digitos_depois_virgula, a.at(i).at(j)); // primeiro digito eh o total de digitos. o segundo eh digitos apos a virgula
         }
-        cout << '\n';
+        printf ("\n");
+    }
+}
+
+void Matriz::show() { // parametros padroes
+    for (int i = 0; i < n_linhas; i++) {
+        for (int j = 0; j < n_colunas; j++) {
+            // cout << a.at(i).at(j) << "     ";
+            printf ("%10.5f ", a.at(i).at(j));
+        }
+        printf ("\n");
     }
 }
 
@@ -66,6 +78,16 @@ Matriz Matriz::transposta() {
         }
     }
     return matriz_retorno;
+}
+
+Matriz Matriz::pegarcoluna(int colunas){
+    Matriz matriz_parte(n_linhas,colunas);
+    for (int i = 0; i < n_linhas; i++) {
+        for (int j = 0; j < colunas; j++) {
+            matriz_parte.mudar_elemento(a.at(i).at(j), i, j);
+        }
+    }
+    return matriz_parte;
 }
 
 Matriz Matriz::operator *(Matriz &outra) { // multiplicação de matriz

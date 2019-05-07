@@ -5,6 +5,7 @@
 #include <deque>
 #include <math.h>       /* potenciação */
 #include <Matriz.h>
+#include <vector>
 using namespace std;
 
 double modulo(double numero) { // função módulo padrão
@@ -46,8 +47,7 @@ deque<deque<double> > resolver_por_QR(Matriz &matriz_W, Matriz &matriz_A) { // r
     int p = matriz_A.get_n_colunas();
     int n = matriz_W.get_n_linhas();
     int m = matriz_W.get_n_colunas();
-    double multiplicador;
-    double cos, sen;
+    double cos, sen, aux;
     Matriz solucao(m, p);
     for (int k = 0; k < m; k++) {
         for (int j = n - 1; j > k; j--) {
@@ -60,41 +60,20 @@ deque<deque<double> > resolver_por_QR(Matriz &matriz_W, Matriz &matriz_A) { // r
             }
         }
     }
-    // a parte inferior de W é (m-n)x n e so possui zeros, para resolver varios sistemas mais rapido podemos escalonar novamente a matriz e W nao sera nula apenas na diagonal principal
-    cout << "matriz_W:" << endl;
-    matriz_W.show();
-    cout << endl;
-    Matriz matriz_W_modificada = matriz_W;
-    Matriz matriz_A_modificada = matriz_A;
 
-    for (int j = m - 1; j >= 0; j--) { // j eh o indice da coluna, m linhas nao nulas
-        for (int k = j - 1; k >= 0; k--) { // k eh o indice da linha percorrida
-            multiplicador = matriz_W_modificada.get_elemento(k, j)/matriz_W_modificada.get_elemento(j, j);
-            matriz_W_modificada.mudar_elemento(0, k, j);
-            for (int indice = 0; indice < p; indice ++) {
-                matriz_A_modificada.mudar_elemento(matriz_A_modificada.get_elemento(k, indice) - multiplicador*matriz_A_modificada.get_elemento(j, indice), k, indice);
+    for (int k = m - 1; k >= 0; k--) {
+        for (int j = 0; j < p; j++) {
+            aux = 0;
+            for (int i = k; i <= m - 1; i++) {
+                aux += matriz_W.get_elemento(k, i)*solucao.get_elemento(i, j);
             }
-        }
-    }
-    cout << "matriz_W_modificada:" << endl;
-    matriz_W_modificada.show();
-    cout << endl;
-
-    cout << "matriz_A_modificada:" << endl;
-    matriz_A_modificada.show();
-    cout << endl;
-
-    for (int j = 0; j < p; j++) {
-        for (int k = 0; k < m; k++) {
-            /*cout << matriz_W_modificada.get_elemento(k, k) << endl;
-            cout << k << ' ' << j << endl;*/
-            solucao.mudar_elemento((matriz_A_modificada.get_elemento(k, j)/matriz_W_modificada.get_elemento(k, k)), k, j);
+            solucao.mudar_elemento(((matriz_A.get_elemento(k, j) - aux)/matriz_W.get_elemento(k, k)), k, j);
         }
     }
     return solucao.get_a();
 }
 
-Matriz achar_W_e_H(Matriz &matriz_W, Matriz & matriz_A) {
+Matriz achar_W_e_H(Matriz &matriz_W, Matriz &matriz_A) {
     const int itmax = 100;
     const float epsilon = 0.00001;
     double erro = epsilon + 1;
@@ -108,13 +87,14 @@ Matriz achar_W_e_H(Matriz &matriz_W, Matriz & matriz_A) {
     Matriz* matriz_H;
     double erro_atual;
     double erro_anterior;
+    double aux;
 
     for (int i = 0; i < n_linhas_W; i++) {
         for (int j = 0; j < n_colunas_W; j++) {
             matriz_W.mudar_elemento(rand(), i, j);
         }
     }
-    while (n_iteracoes < itmax && erro > epsilon) {;
+    while (n_iteracoes < itmax && erro > epsilon) {
         Matriz matriz_A_modificada = matriz_A;
         for (int j = 0; j < n_colunas_W; j++) {
             somatoria_quadrados = 0;
@@ -136,7 +116,6 @@ Matriz achar_W_e_H(Matriz &matriz_W, Matriz & matriz_A) {
                 }
             }
         }
-
         Matriz matriz_A_transposta = matriz_A.transposta();
         Matriz matriz_H_transposta = matriz_H->transposta();
         Matriz* matriz_W_transposta = new Matriz(resolver_por_QR(matriz_H_transposta, matriz_A_transposta));
@@ -155,12 +134,14 @@ Matriz achar_W_e_H(Matriz &matriz_W, Matriz & matriz_A) {
             }
         }
         somatoria_quadrados = 0;
+        Matriz matriz_WH = matriz_W*(*matriz_H);
         for (int i = 0; i < n_linhas_A; i++) {
             for (int j = 0; j < n_colunas_A; j++) {
-                somatoria_quadrados += (matriz_A.get_elemento(i, j) - (matriz_W*(*matriz_H)).get_elemento(i, j))*(matriz_A.get_elemento(i, j) - (matriz_W*(*matriz_H)).get_elemento(i, j));
+                aux = matriz_A.get_elemento(i, j) - matriz_WH.get_elemento(i, j);
+                somatoria_quadrados += aux*aux;
             }
         }
-/*
+
         if (n_iteracoes == 0) {
             erro_atual = somatoria_quadrados;
         } else {
@@ -168,40 +149,78 @@ Matriz achar_W_e_H(Matriz &matriz_W, Matriz & matriz_A) {
             erro_atual = somatoria_quadrados;
             erro = modulo(erro_atual - erro_anterior);
         }
-*/
 
+        cout << "Iteracao " << n_iteracoes << endl;
+        cout << "Erro = " << erro << endl << endl;
 
         n_iteracoes++;
     }
     return *matriz_H;
 }
 
+Matriz matriz_de_treinamento(char arq[], int ndig_treino)//Leitura do arquivo criando a matriz de treinamento
+{
+    FILE *fp;
+    fp = fopen("train_dig0.txt","r");
+    int linha = 784;
+    vector <int> dado (5000000);
+    long int tamanho = 0;
+    while(!feof(fp)){
+        fscanf(fp,"%d",&dado[tamanho]);
+        tamanho++;
+    }
+    fclose(fp);
+    long int coluna = tamanho/linha;
+    long int k = 0;
+    Matriz *matriz_aux = new Matriz(linha,coluna);
+    for (int i=0;i<linha;i++){
+        for(int j=0; j<coluna; j++){
+            matriz_aux->mudar_elemento(dado.at(k),i,j);
+            k++;
+        }
+    }
+    Matriz matriz_a = matriz_aux->pegarcoluna(ndig_treino);
+
+    return matriz_a;
+}
+
 int main() {
+// tarefa principal
+//1)Treinamento
+
+int ndig_treino = 10;
+int p = 5;
+int n = 784;
+Matriz matriz_A = matriz_de_treinamento("train_dig0.txt",ndig_treino); //criação da matriz A
+// matriz_A.show();
+Matriz matriz_H = Matriz(p,ndig_treino);
+Matriz matriz_W = Matriz(n, p);
+matriz_H = achar_W_e_H(matriz_W,matriz_A);
+
+matriz_W.show();
+
+// matriz_H.show();
+// matriz_A.show();
+
+
 // segunda tarefa
 /*
     deque<double> teste1 = {0.3, 0.6, 0};
     deque<double> teste2 = {0.5, 0, 1};
     deque<double> teste3 = {0.4, 0.8, 0};
-    //deque<double> teste4 = {0.6, 0);
-    //deque<double> teste5 = {0, 1);
-    //deque<double> teste6 = {0.8, 0};
-    //deque<double> teste7 = {0.5, 1, 0};
-    //deque<double> teste8 = {0.5, 0, 1};
+    deque<double> teste4 = {0.6, 0};
+    deque<double> teste5 = {0, 1};
+    deque<double> teste6 = {0.8, 0};
+    deque<double> teste7 = {0.5, 1, 0};
+    deque<double> teste8 = {0.5, 0, 1};
     deque<deque<double> > testeA = {teste1, teste2, teste3};
-    //deque<deque<double> > testeW = {teste4, teste5, teste6};
-    //deque<deque<double> > testeH = {teste7, teste8};
+    deque<deque<double> > testeW = {teste4, teste5, teste6};
+    deque<deque<double> > testeH = {teste7, teste8};
     Matriz matriz_A(testeA);
-
     Matriz matriz_W(3, 2);
-
-    // matriz_W.show();
-    //cout << endl;
-
-    //matriz matriz_W(testeW);
-    //matriz matriz_H(testeH);
-
+    cout << "Segunda tarefa:" << endl;
     Matriz matriz_H = achar_W_e_H(matriz_W, matriz_A);
-    cout << "Resultados utilizando 100 iteracoes" << endl;
+    cout << "Resultados com 100 iteracoes:" << endl;
     cout << "matriz_H calculada:" << endl;
     matriz_H.show();
     cout << endl;
@@ -210,29 +229,11 @@ int main() {
     cout << endl;
     cout << "W*H:" << endl;
     (matriz_W*matriz_H).show();
-    //cout << endl;
-
-    //matriz_W.show();
+    cout << endl;
 */
-
 
     // testes para o resolver_por_QR
-    // parte 1
 /*
-    deque<double> teste1 = {2, 1};
-    deque<double> teste2 = {4, 1};
-    //deque<double> teste3 = {3, 1};
-    deque<deque<double> > teste4 = {teste1, teste2};
-    deque<double> b1 = {30};
-    deque<double> b2 = {40};
-    //deque<double> b3 = {4};
-    deque<deque<double> > bzao = {b1, b2};
-    Matriz b(bzao);
-    Matriz testezao(teste4);
-    Matriz(resolver_por_QR(testezao, b)).show();
-*/
-    // parte 2
-    /*
     deque<double> teste1 = {2, 1, 1, -1, 1};
     deque<double> teste2 = {0, 3, 0, 1, -2};
     deque<double> teste3 = {0, 0, 2, 2, -1};
@@ -248,11 +249,14 @@ int main() {
     Matriz b(bzao);
     Matriz testezao(teste6);
     Matriz(resolver_por_QR(testezao, b)).show();
-    */
+*/
 
     // abaixo o teste a)
 /*
-    int cte = 65;
+    cout << "Teste a:" << endl;
+    cout << "Matriz W do Teste a: " << endl;
+
+    int cte = 64;
     Matriz teste_matriz(cte, cte);
     Matriz teste_b     (cte, 1  );
     for (int i = 0; i < cte; i++) {
@@ -266,12 +270,16 @@ int main() {
             }
         }
     }
-    teste_matriz.show();
-    Matriz(resolver_por_QR(teste_matriz, teste_b)).show();
+    teste_matriz.show(1, 0);
+
+    cout << "Resultados do teste a: " << endl;
+    Matriz(resolver_por_QR(teste_matriz, teste_b)).show(6, 5);
 */
 
     // teste b
 /*
+    cout << "Teste b" << endl;
+    cout << "Matriz W do Teste b:" << endl << endl;
     Matriz teste_matriz(20, 17);
     Matriz teste_b(20, 1);
     for (int i = 0; i < 20; i++) {
@@ -282,19 +290,20 @@ int main() {
             }
         }
     }
-    teste_matriz.show();
-    Matriz(resolver_por_QR(teste_matriz, teste_b)).show();
+    teste_matriz.show(6, 5);
+    cout << endl << "Resultado teste b:" << endl;
+    Matriz(resolver_por_QR(teste_matriz, teste_b)).show(9, 5);
 */
 
     // teste c
-
+/*
     int cte = 64;
     Matriz teste_matriz(cte, cte);
     Matriz teste_b     (cte, 3  );
     for (int i = 0; i < cte; i++) {
-        teste_b.mudar_elemento(1, i, 0);
-        teste_b.mudar_elemento(i+1, i, 1);
-        teste_b.mudar_elemento((2*(i+1))-1, i, 2);
+        teste_b.mudar_elemento( 1,         i, 0);
+        teste_b.mudar_elemento( i+1,       i, 1);
+        teste_b.mudar_elemento(2*(i+1)-1, i, 2);
         for (int j = 0; j < cte; j++) {
             if (i == j) {
                 teste_matriz.mudar_elemento(2, i, j);
@@ -304,27 +313,33 @@ int main() {
             }
         }
     }
-    teste_matriz.show();
-    Matriz(resolver_por_QR(teste_matriz, teste_b)).show();
-
+    cout << "Teste c" << endl;
+    cout << "Matriz W do Teste C:" << endl;
+    teste_matriz.show(1, 0);
+    cout << endl << "Resultados do item c: " << endl;
+    Matriz(resolver_por_QR(teste_matriz, teste_b)).show(9, 5);
+*/
 
     // teste d
-    /*
+/*
     Matriz teste_matriz(20, 17);
     Matriz teste_b(20, 3);
     for (int i = 0; i < 20; i++) {
         teste_b.mudar_elemento(1, i, 0);
-        teste_b.mudar_elemento(i, i, 1);
-        teste_b.mudar_elemento((2*i)-1, i, 2);
+        teste_b.mudar_elemento(i+1, i, 1);
+        teste_b.mudar_elemento(2*(i+1)-1, i, 2);
         for (int j = 0; j < 17; j++) {
             if (modulo(i-j) <= 4) {
                 teste_matriz.mudar_elemento(1.0/((i+1)+(j+1)-1), i, j);
             }
         }
     }
-    teste_matriz.show();
+    cout << "Teste d" << endl;
+    cout << "Matriz W do Teste D:" << endl;
+    teste_matriz.show(7, 5);
+    cout << endl << "Resultados do item d: " << endl;
     Matriz(resolver_por_QR(teste_matriz, teste_b)).show();
-    */
+*/
     // teste operador =
     /*
     Matriz a(2, 2);

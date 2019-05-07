@@ -10,11 +10,13 @@ class Matriz
         Matriz();
         Matriz( deque<deque<double> > lista_de_listas);
         Matriz(int n_linhas, int n_colunas);
+        void show(int digitos_total, int digitos_depois_virgula);
         void show();
         virtual ~Matriz();
         int get_n_colunas();
         int get_n_linhas();
         Matriz transposta();
+        Matriz pegarcoluna(int colunas);
         Matriz operator *(Matriz &outra);
         Matriz operator =(Matriz const&outra);
         void mudar_elemento(double a_ij, int i, int j);
