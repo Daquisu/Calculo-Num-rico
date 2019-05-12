@@ -65,3 +65,58 @@
 	<Matriz.h>
 	<vector>
 
+1557595276 source:c:\users\roberto\documents\numerico\ep1_numerico\ep1_numerico\main.cpp
+	<stdio.h>
+	<time.h>
+	<stdlib.h>
+	<iostream>
+	<deque>
+	<math.h>
+	<Matriz.h>
+	<vector>
+	<string.h>
+
+1557602688 c:\users\roberto\documents\numerico\ep1_numerico\ep1_numerico\include\matriz.h
+	<vector>
+	<iostream>
+
+1557602687 source:c:\users\roberto\documents\numerico\ep1_numerico\ep1_numerico\src\matriz.cpp
+	"Matriz.h"
+	<iomanip>
+
+1557629918 source:c:\users\daquisu\desktop\numérico\main.cpp
+	<stdio.h>
+	<time.h>
+	<stdlib.h>
+	<iostream>
+	<math.h>
+	<Matriz.h>
+	<vector>
+	<string.h>
+
+1557621428 c:\users\daquisu\desktop\numérico\include\matriz.h
+	<vector>
+	<iostream>
+
+1557621428 source:c:\users\daquisu\desktop\numérico\src\matriz.cpp
+	"Matriz.h"
+	<iomanip>
+
+1557684405 source:c:\users\daquisu\desktop\numerico\main.cpp
+	<stdio.h>
+	<time.h>
+	<stdlib.h>
+	<iostream>
+	<math.h>
+	<Matriz.h>
+	<vector>
+	<string.h>
+
+1557683839 c:\users\daquisu\desktop\numerico\include\matriz.h
+	<vector>
+	<iostream>
+
+1557683839 source:c:\users\daquisu\desktop\numerico\src\matriz.cpp
+	"Matriz.h"
+	<iomanip>
+

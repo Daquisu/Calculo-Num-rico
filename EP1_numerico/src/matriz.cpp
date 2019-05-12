@@ -5,14 +5,14 @@ Matriz::Matriz() { // declara
 
 }
 
-Matriz::Matriz( deque<deque<double> > lista_de_listas) { // cria uma matriz por meio de uma lista de listas
+Matriz::Matriz( vector<vector<double> > lista_de_listas) { // cria uma matriz por meio de uma lista de listas
     a = lista_de_listas;
     n_linhas = a.size();
     n_colunas = a.at(0).size();
 }
 
 Matriz::Matriz(int n_linhas, int n_colunas) { // cria uma matriz com elementos nulos, definindo apenas o número de linhas e de colunas
-    deque<double> aux;
+    vector<double> aux;
     this->n_linhas = n_linhas;
     this->n_colunas = n_colunas;
     for (int j = 0; j < n_colunas; j++) {
@@ -35,7 +35,7 @@ int Matriz::get_n_linhas() {
     return n_linhas;
 }
 
-deque<deque<double> > Matriz::get_a() {
+vector<vector<double> > Matriz::get_a() {
     return a;
 }
 
@@ -80,6 +80,10 @@ Matriz Matriz::transposta() {
     return matriz_retorno;
 }
 
+void Matriz::mudar_a(vector<vector<double> > a) {
+    this->a = a;
+}
+
 Matriz Matriz::pegarcoluna(int colunas){
     Matriz matriz_parte(n_linhas,colunas);
     for (int i = 0; i < n_linhas; i++) {
@@ -91,10 +95,10 @@ Matriz Matriz::pegarcoluna(int colunas){
 }
 
 Matriz Matriz::operator *(Matriz &outra) { // multiplicação de matriz
-    deque<deque<double> > futura_matriz;
+    vector<vector<double> > futura_matriz;
     if (n_colunas == outra.get_n_linhas()) {
         for (int i = 0; i < n_linhas; i++) {
-            deque<double> vetor_linha;
+            vector<double> vetor_linha;
             futura_matriz.push_back(vetor_linha);
             for (int j = 0; j < outra.get_n_colunas(); j++) {
                 double temp = 0;
@@ -109,14 +113,22 @@ Matriz Matriz::operator *(Matriz &outra) { // multiplicação de matriz
 }
 
 Matriz Matriz::operator =(Matriz const&outra) { // atribuição de matriz
-    deque<deque<double> > futura_matriz;
+    Matriz m_return = Matriz(outra.n_linhas, outra.n_colunas);
+    m_return.a = outra.a;
+    return m_return;
+}
+
+Matriz Matriz::operator -(Matriz const&outra) { // subtração de matrizes
+    vector<vector<double> > futura_matriz;
     for (int i = 0; i < outra.n_linhas; i++) {
-        deque<double> vetor_linha;
+        vector<double> vetor_linha;
         futura_matriz.push_back(vetor_linha);
         for (int j = 0; j < outra.n_colunas; j++) {
-            futura_matriz.at(i).push_back(outra.a.at(i).at(j));
+            futura_matriz.at(i).push_back(a.at(i).at(j)-outra.a.at(i).at(j));
         }
     }
     return Matriz(futura_matriz);
 }
+
+
 
