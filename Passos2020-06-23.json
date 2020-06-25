@@ -2,71 +2,71 @@
     "activities-steps":[
       {
         "dateTime":"2020-05-25",
-        "value":"1"
+        "value":"70"
       },
       {
         "dateTime":"2020-05-26",
-        "value":"2"
+        "value":"140"
       },
       {
         "dateTime":"2020-05-27",
-        "value":"3"
+        "value":"210"
       },
       {
         "dateTime":"2020-05-28",
-        "value":"4"
+        "value":"280"
       },
       {
         "dateTime":"2020-05-29",
-        "value":"5"
+        "value":"350"
       },
       {
         "dateTime":"2020-05-30",
-        "value":"6"
+        "value":"420"
       },
       {
         "dateTime":"2020-05-31",
-        "value":"7"
+        "value":"490"
       },
       {
         "dateTime":"2020-06-01",
-        "value":"8"
+        "value":"560"
       },
       {
         "dateTime":"2020-06-02",
-        "value":"9"
+        "value":"640"
       },
       {
         "dateTime":"2020-06-03",
-        "value":"10"
+        "value":"700"
       },
       {
         "dateTime":"2020-06-04",
-        "value":"11"
+        "value":"840"
       },
       {
         "dateTime":"2020-06-05",
-        "value":"12"
+        "value":"910"
       },
       {
         "dateTime":"2020-06-06",
-        "value":"13"
+        "value":"980"
       },
       {
         "dateTime":"2020-06-07",
-        "value":"14"
+        "value":"1050"
       },
       {
         "dateTime":"2020-06-08",
-        "value":"15"
+        "value":"1120"
       },
       {
         "dateTime":"2020-06-09",
-        "value":"16"
+        "value":"1190"
       },
       {
         "dateTime":"2020-06-10",
-        "value":"17"
+        "value":"1260"
       },
       {
         "dateTime":"2020-06-11",
@@ -74,51 +74,51 @@
       },
       {
         "dateTime":"2020-06-12",
-        "value":"19"
+        "value":"1330"
       },
       {
         "dateTime":"2020-06-13",
-        "value":"20"
+        "value":"1400"
       },
       {
         "dateTime":"2020-06-14",
-        "value":"21"
+        "value":"1470"
       },
       {
         "dateTime":"2020-06-15",
-        "value":"22"
+        "value":"1540"
       },
       {
         "dateTime":"2020-06-16",
-        "value":"23"
+        "value":"1610"
       },
       {
         "dateTime":"2020-06-17",
-        "value":"24"
+        "value":"1680"
       },
       {
         "dateTime":"2020-06-18",
-        "value":"25"
+        "value":"1750"
       },
       {
         "dateTime":"2020-06-19",
-        "value":"26"
+        "value":"1820"
       },
       {
         "dateTime":"2020-06-20",
-        "value":"27"
+        "value":"1890"
       },
       {
         "dateTime":"2020-06-21",
-        "value":"28"
+        "value":"1960"
       },
       {
         "dateTime":"2020-06-22",
-        "value":"29"
+        "value":"2030"
       },
       {
         "dateTime":"2020-06-23",
-        "value":"30"
+        "value":"2100"
       }
     ]
   }
